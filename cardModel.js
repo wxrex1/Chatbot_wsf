@@ -37,7 +37,6 @@ module.exports = {
   getCardById,
   updateCard,
   deleteCard,
-  getRandomCard
 };
 
 

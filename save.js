@@ -46,11 +46,11 @@ async function main() {
   
 
   for (card_num in cards) {
-    await db.createcard(card_num, cards[card_num].qty, cards[card_num].price);
+    await db.createCard(card_num, cards[card_num].qty);
   }
 
   // Read
-  const getAllcards = await db.getAllcard();
+  const getAllcards = await db.getAllCards();
   console.log('Tous les cards :', getAllcards);
 }
 

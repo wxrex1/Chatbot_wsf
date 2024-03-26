@@ -33,34 +33,39 @@ const knex = require('knex')(require('./knexfile')['development']);
 	// Train and test:
 	intentClassifier.trainBatch([
 		{input: "1", output: "1"},
-		{input: "Je veux boire un barcad", output: "barcadi"},
-		{input: "Je veux une boisson de barcadir", output: "barcadi"},
-		{input: "J'aime du barcardi", output: "barcadi"},
-		{input: "Je veux boire un captain morgan", output: "captain_morgan"},
-		{input: "J'aime du captain morgan", output: "captain_morgan"},
-		{input: "Je veux boire un old nick", output: "old_nick"},
-		{input: "J'aime du old nick", output: "old_nick"},
+        {input: "Je choisi le 1", output: "1"},
+        {input: "Je choisi le nombre 1", output: "1"},
+        {input: "2", output: "2"},
+        {input: "Je choisi le 2", output: "2"},
+        {input: "Je choisi le nombre 2", output: "2"},
+        {input: "3", output: "3"},
+        {input: "Je choisi le 3", output: "3"},
+        {input: "Je choisi le nombre 3", output: "3"},
+        {input: "4", output: "4"},
+        {input: "Je choisi le 4", output: "4"},
+        {input: "Je choisi le nombre 4", output: "4"},
+        {input: "5", output: "5"},
+        {input: "Je choisi le 5", output: "5"},
+        {input: "Je choisi le nombre 5", output: "5"},
+        {input: "6", output: "6"},
+        {input: "Je choisi le 6", output: "6"},
+        {input: "Je choisi le nombre 6", output: "6"},
+        {input: "7", output: "7"},
+        {input: "Je choisi le 7", output: "7"},
+        {input: "Je choisi le nombre 7", output: "7"},
+        {input: "8", output: "8"},
+        {input: "Je choisi le 8", output: "8"},
+        {input: "Je choisi le nombre 8", output: "8"},
+        {input: "9", output: "9"},
+        {input: "Je choisi le 9", output: "9"},
+        {input: "Je choisi le nombre 9", output: "9"},
+        {input: "10", output: "10"},
+        {input: "Je choisi le 10", output: "10"},
+        {input: "Je choisi le nombre 10", output: "10"},
 	]);
 
 
-	// Initialize a classifier with the base classifier type and the feature extractor:
-	var intentClassifierAccept = new limdu.classifiers.EnhancedClassifier({
-		classifierType: TextClassifier,
-		featureExtractor: WordExtractor
-	});
-
-	// Train and test:
-	intentClassifierAccept.trainBatch([
-		{input: "1", output: "1"},
-		{input: "Donne moi !", output: "oui"},
-		{input: "je prends", output: "oui"},
-		{input: "ok", output: "oui"},
-		{input: "je ne prends pas", output: "no"},
-		{input: "Non c'est trop chère", output: "non"},
-		{input: "Non je veux pas", output: "non"},
-		{input: "Non sait pas !", output: "non"},
-	]);
-
+	
 
 
 
@@ -98,14 +103,15 @@ const knex = require('knex')(require('./knexfile')['development']);
 
 
 			// Choisissez une carte aléatoire
-		const randomCard = getRandomCard(cards);
+		const randomCard = await getRandomCard(cards);
 
 		// Comparez les deux cartes
 		if (randomCard === current_card) {
 		console.log("Bravo ! vous avez gagné!");
 		}
 		 else {
-		console.log("Désolé, vous avez perdu !");
+		console.log("La carte gagnante était : ", randomCard.name);
+
 		}
 
 	  	
