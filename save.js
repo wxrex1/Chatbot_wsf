@@ -27,14 +27,12 @@ main().catch(err => console.error(err));*/
 
 const db = require('./cardModel');
 
-function getRandomInt(max) {
-  return Math.floor(Math.random() * 10);
-}
+
 
 async function main() {
   const cards = {
-    '1': { qty: 1},
-    '2': { qty: 1},
+    '1': { qty: 2},
+    '2': { qty: 2},
     '3': { qty: 1},
     '4': { qty: 1},
     '5': { qty: 1},
@@ -44,6 +42,8 @@ async function main() {
     '9': { qty: 1},
     '10': { qty: 1},
   }
+
+  
 
   for (card_num in cards) {
     await db.createcard(card_num, cards[card_num].qty, cards[card_num].price);

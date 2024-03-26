@@ -7,8 +7,8 @@
 const knex = require('knex')(require('./knexfile')['development']);
 
 // Create
-async function createCard(name, quantity, price) {
-  return await knex('cards').insert({ name, quantity, price });
+async function createCard(name, quantity) {
+  return await knex('cards').insert({ name, quantity });
 }
 
 // Read
@@ -19,6 +19,7 @@ async function getAllCards() {
 async function getCardById(id) {
   return await knex('cards').where({ id }).first();
 }
+
 
 // Update
 async function updateCard(id, quantity) {
@@ -35,7 +36,8 @@ module.exports = {
   getAllCards,
   getCardById,
   updateCard,
-  deleteCard
+  deleteCard,
+  getRandomCard
 };
 
 

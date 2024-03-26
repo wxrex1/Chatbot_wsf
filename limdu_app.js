@@ -1,6 +1,7 @@
 var limdu = require('limdu');
 const prompt = require("prompt-sync")({ sigint: true });
 const db = require('./cardModel');
+const knex = require('knex')(require('./knexfile')['development']);
 
 
 (async function() {
@@ -31,7 +32,7 @@ const db = require('./cardModel');
 
 	// Train and test:
 	intentClassifier.trainBatch([
-		{input: "Je veux boire un barcadi", output: "barcadi"},
+		{input: "1", output: "1"},
 		{input: "Je veux boire un barcad", output: "barcadi"},
 		{input: "Je veux une boisson de barcadir", output: "barcadi"},
 		{input: "J'aime du barcardi", output: "barcadi"},
@@ -50,7 +51,7 @@ const db = require('./cardModel');
 
 	// Train and test:
 	intentClassifierAccept.trainBatch([
-		{input: "Je veux bien cette boisson", output: "oui"},
+		{input: "1", output: "1"},
 		{input: "Donne moi !", output: "oui"},
 		{input: "je prends", output: "oui"},
 		{input: "ok", output: "oui"},
@@ -62,21 +63,55 @@ const db = require('./cardModel');
 
 
 
+
+
+
+
+
+
+
+
+	async function getRandomCard() {
+		const randomCard = await knex.select().from('cards').where({ quantity: 1 });
+		if (randomCard.length === 0) {
+		  throw new Error("il n'ya plus de carte disponible");
+		}
+		const randomIndex = Math.floor(Math.random() * randomCard.length);
+		return randomCard[randomIndex];
+		}
+	  
+
+
+
+	// le chat bot choisi une carte dans le tableau
 	console.log('Bonjour')
-	const card_want = prompt("Pouvez-vous me dire le rhum que vous souhaitez (Nick, Barcardi, Morgan) possible ?");
+	const card_want = prompt("bonjour choissiez une carte entre 1 et 10?");
 	predicted_response = intentClassifier.classify(card_want);
 
-	let current_card = null
+	let current_card = predicted_response[0]
 	// console.log('predicted_response', predicted_response)
-	for (carte of cards) {
-		if (carte.name == predicted_response[0]) {
-			console.log("La carte est", carte['name'])
-			current_card = carte 
-			break
-		}
-	}
+	
 
-	const yesno = prompt(`Souhaitez-vous payer votre ${current_carte.name} ?`);
+	
+	  
+
+
+
+			// Choisissez une carte aléatoire
+		const randomCard = getRandomCard(cards);
+
+		// Comparez les deux cartes
+		if (randomCard === current_card) {
+		console.log("Bravo ! vous avez gagné!");
+		}
+		 else {
+		console.log("Désolé, vous avez perdu !");
+		}
+
+	  	
+
+
+	/*const yesno = prompt(`Souhaitez-vous payer votre ${current_carte.name} ?`);
 	predicted_response = intentClassifierAccept.classify(yesno);
 	if (predicted_response[0] == 'non') {
 		console.log('Merci et à la prochaine!')
@@ -98,7 +133,7 @@ const db = require('./cardModel');
 				console.log('Ok merci prennez vos cartes!')
 			}
 		}
-	}
+	}*/
 
 })()
 
