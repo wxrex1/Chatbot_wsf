@@ -6,6 +6,7 @@ const knex = require('knex')(require('./knexfile')['development']);
 async function createBoisson(name, quantity, price) {
   return await knex('boissons').insert({ name, quantity, price });
 }
+//test
 
 // Read
 async function getAllBoissons() {
