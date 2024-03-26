@@ -97,3 +97,30 @@ const db = require('./boissonModel');
 	}
 
 })()
+
+
+/*Les modules limdu, prompt-sync et boissonModel sont importés.
+
+Une fonction asynchrone anonyme est définie et immédiatement appelée. Cette fonction fait les choses suivantes :
+
+Elle récupère toutes les boissons de la base de données en utilisant la méthode getAllBoissons du module boissonModel et les affiche dans la console.
+
+Elle définit un classificateur de texte basé sur l'algorithme Winnow de limdu. Ce classificateur est utilisé pour classer les entrées de texte en plusieurs catégories.
+
+Elle définit un extracteur de caractéristiques qui prend une entrée de texte, la divise en mots et ajoute chaque mot comme une caractéristique.
+
+Elle initialise un classificateur avec le type de classificateur de base et l'extracteur de caractéristiques. Ce classificateur est utilisé pour entraîner et tester le modèle.
+
+Elle entraîne le classificateur avec plusieurs exemples de phrases et les boissons correspondantes.
+
+Elle initialise un autre classificateur, intentClassifierAccept, avec le même type de classificateur de base et l'extracteur de caractéristiques. Ce classificateur est utilisé pour entraîner et tester le modèle sur des phrases d'acceptation ou de refus.
+
+Elle demande à l'utilisateur quelle boisson il souhaite et utilise le classificateur pour prédire la boisson correspondante.
+
+Elle vérifie si la boisson prédite est disponible dans la base de données et affiche son prix.
+
+Elle demande à l'utilisateur s'il souhaite acheter la boisson et utilise le deuxième classificateur pour prédire si la réponse est affirmative ou négative.
+
+Si la réponse est affirmative, elle demande à l'utilisateur combien de boissons il souhaite, vérifie si la quantité est disponible dans la base de données et, si c'est le cas, met à jour la quantité de boissons dans la base de données et confirme la vente à l'utilisateur.
+
+Si la réponse est négative, elle remercie l'utilisateur et termine le programme.*/
