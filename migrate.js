@@ -1,4 +1,5 @@
 const knex = require('knex')(require('./knexfile')['development']);
+*/
 
 
 async function createTable() {
