@@ -1,6 +1,6 @@
 // App.js - Utilisation des opérations CRUD avec Knex
 
-const db = require('./boissonModel');
+/*const db = require('./boissonModel');
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
@@ -22,18 +22,18 @@ async function main() {
   console.log('Tous les boissons :', getAllBoissons);
 }
 
-main().catch(err => console.error(err));
+main().catch(err => console.error(err));*/
 
 _______________________________________
 
-const db = require('./boissonModel');
+const db = require('./cardModel');
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * 10);
 }
 
 async function main() {
-  const card = {
+  const cards = {
     '1': { qty: 1},
     '2': { qty: 1},
     '3': { qty: 1},
@@ -46,11 +46,13 @@ async function main() {
     '10': { qty: 1},
   }
 
-  for (card_num in card) {
-    await db.createcard(card_num, card[card_num].qty, card[card_num].price);
+  for (card_num in cards) {
+    await db.createcard(card_num, cards[card_num].qty, cards[card_num].price);
   }
 
   // Read
-  const getAllcard = await db.getAllcard();
-  console.log('Tous les card :', getAllcard);
+  const getAllcards = await db.getAllcard();
+  console.log('Tous les cards :', getAllcards);
 }
+
+main().catch(err => console.error(err));

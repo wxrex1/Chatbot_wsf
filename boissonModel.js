@@ -1,39 +1,45 @@
 // db.js - Fichier pour gérer les opérations CRUD avec Knex
 
+
+
+___________________________________________
+
+
 const knex = require('knex')(require('./knexfile')['development']);
 
 // Create
-async function createBoisson(name, quantity, price) {
-  return await knex('boissons').insert({ name, quantity, price });
+async function createCard(name, quantity, price) {
+  return await knex('cards').insert({ name, quantity, price });
 }
-//test
 
 // Read
-async function getAllBoissons() {
-  return await knex.select().from('boissons');
+async function getAllCards() {
+  return await knex.select().from('cards');
 }
 
-async function getBoisonById(id) {
-  return await knex('boissons').where({ id }).first();
+async function getCardById(id) {
+  return await knex('cards').where({ id }).first();
 }
 
 // Update
-async function updateBoisson(id, quantity) {
-  return await knex('boissons').where({ id }).update({ quantity });
+async function updateCard(id, quantity) {
+  return await knex('cards').where({ id }).update({ quantity });
 }
 
 // Delete
-async function deletBoisson(id) {
-  return await knex('boissons').where({ id }).del();
+async function deleteCard(id) {
+  return await knex('cards').where({ id }).del();
 }
 
 module.exports = {
-  createBoisson,
-  getAllBoissons,
-  getBoisonById,
-  updateBoisson,
-  deletBoisson
+  createCard,
+  getAllCards,
+  getCardById,
+  updateCard,
+  deleteCard
 };
+
+
 
 // npm install knex sqlite3*
 
