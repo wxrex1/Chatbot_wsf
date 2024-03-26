@@ -2,7 +2,6 @@
 
 
 
-___________________________________________
 
 
 const knex = require('knex')(require('./knexfile')['development']);
