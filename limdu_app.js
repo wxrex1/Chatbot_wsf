@@ -1,11 +1,12 @@
 var limdu = require('limdu');
 const prompt = require("prompt-sync")({ sigint: true });
-const db = require('./boissonModel');
+const db = require('./cardModel');
+
 
 (async function() {
 
-	const boissons = await db.getAllBoissons()
-	console.log(boissons)
+	const cards = await db.getAllCards()
+	console.log(cards)
 	// First, define our base classifier type (a multi-label classifier based on winnow):
 	var TextClassifier = limdu.classifiers.multilabel.BinaryRelevance.bind(0, {
 		binaryClassifierType: limdu.classifiers.Winnow.bind(0, {retrain_count: 10})
@@ -23,6 +24,10 @@ const db = require('./boissonModel');
 		classifierType: TextClassifier,
 		featureExtractor: WordExtractor
 	});
+
+
+
+
 
 	// Train and test:
 	intentClassifier.trainBatch([
@@ -58,40 +63,39 @@ const db = require('./boissonModel');
 
 
 	console.log('Bonjour')
-	const rhum_want = prompt("Pouvez-vous me dire le rhum que vous souhaitez (Nick, Barcardi, Morgan) possible ?");
-	predicted_response = intentClassifier.classify(rhum_want);
+	const card_want = prompt("Pouvez-vous me dire le rhum que vous souhaitez (Nick, Barcardi, Morgan) possible ?");
+	predicted_response = intentClassifier.classify(card_want);
 
-	let current_boisson = null
+	let current_card = null
 	// console.log('predicted_response', predicted_response)
-	for (boison of boissons) {
-		if (boison.name == predicted_response[0]) {
-			console.log("La boison", boison['name'], "est de", boison['price'], " EUR")
-			current_boisson = boison 
+	for (carte of cards) {
+		if (carte.name == predicted_response[0]) {
+			console.log("La carte est", carte['name'])
+			current_card = carte 
 			break
 		}
 	}
 
-	const yesno = prompt(`Souhaitez-vous payer votre ${current_boisson.name} ?`);
+	const yesno = prompt(`Souhaitez-vous payer votre ${current_carte.name} ?`);
 	predicted_response = intentClassifierAccept.classify(yesno);
 	if (predicted_response[0] == 'non') {
 		console.log('Merci et à la prochaine!')
 	}
 
 	if (predicted_response[0] == 'oui') {
-
-		const want_qty = prompt(`Avez-vous besoin de combien de ${current_boisson.name} ?`);
-		console.log(`Vous voulez ${Number(want_qty)} ${current_boisson.name}(s)`)
-		boisson_from_db = await db.getBoisonById(current_boisson.id)
-		if ((boisson_from_db.quantity <= 0)) {
-			console.log(`Nous n'avons plus de ${boisson_from_db.name}!`)
-		} else if ((boisson_from_db.quantity - Number(want_qty)) <= 0) {
-			console.log(`Nous n'avons pas suffisamment de ${boisson_from_db.name} pour vous servir!`)
+		const want_qty = prompt(`Avez-vous besoin de combien de ${current_card.name} ?`);
+		console.log(`Vous voulez ${Number(want_qty)} ${current_card.name}(s)`)
+		card_from_db = await db.getCardById(current_card.id)
+		if ((card_from_db.quantity <= 0)) {
+			console.log(`Nous n'avons plus de ${card_from_db.name}!`)
+		} else if ((card_from_db.quantity - Number(want_qty)) <= 0) {
+			console.log(`Nous n'avons pas suffisamment de ${card_from_db.name} pour vous servir!`)
 		} else {
-			db.updateBoisson(current_boisson.id, boisson_from_db.quantity - Number(want_qty))
+			db.updateCard(current_card.id, card_from_db.quantity - Number(want_qty))
 			if (Number(want_qty) == 1) {
-				console.log('Ok merci prennez votre boisson!')
+				console.log('Ok merci prennez votre carte!')
 			} else {
-				console.log('Ok merci prennez vos boissons!')
+				console.log('Ok merci prennez vos cartes!')
 			}
 		}
 	}

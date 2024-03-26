@@ -1,1 +1,2 @@
-# app_knex_cli_db_p4
+# Devine mon chiffre
+le joueur doit deviner le chiffre en 1 et 10
