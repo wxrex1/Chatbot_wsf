@@ -23,3 +23,34 @@ async function main() {
 }
 
 main().catch(err => console.error(err));
+
+_______________________________________
+
+const db = require('./boissonModel');
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * 10);
+}
+
+async function main() {
+  const card = {
+    '1': { qty: 1},
+    '2': { qty: 1},
+    '3': { qty: 1},
+    '4': { qty: 1},
+    '5': { qty: 1},
+    '6': { qty: 1},
+    '7': { qty: 1},
+    '8': { qty: 1},
+    '9': { qty: 1},
+    '10': { qty: 1},
+  }
+
+  for (card_num in card) {
+    await db.createcard(card_num, card[card_num].qty, card[card_num].price);
+  }
+
+  // Read
+  const getAllcard = await db.getAllcard();
+  console.log('Tous les card :', getAllcard);
+}
