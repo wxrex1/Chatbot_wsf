@@ -30,7 +30,10 @@ async function createTable() {
   }
 }
 
-createTable();
+
+createTable(); 
+
+
 
 /*Ce script JavaScript utilise la bibliothèque knex pour créer une table boissons dans une base de données si elle n'existe pas déjà. Voici une explication détaillée :
 

@@ -18,18 +18,22 @@ async function getCardById(id) {
 }
 
 async function getRandomCard() {
-  const randomCard = await knex.select().from('cards').where({ quantity: 1 });
-  if (randomCard.length === 0) {
+  const allCards = await knex.select().from('cards');
+  if (allCards.length === 0) {
     throw new Error("il n'ya plus de carte disponible");
   }
-  const randomIndex = Math.floor(Math.random() * randomCard.length);
-  return randomCard[randomIndex];
-  }
+  const randomIndex = Math.floor(Math.random() * allCards.length);
+  return allCards[randomIndex];
+}
   
 
 // Update
 async function updateCard(id, quantity) {
   return await knex('cards').where({ id }).update({ quantity });
+}
+async function saveScore(wins, losses) {
+  return knex('scores')
+      .insert({ wins, losses });
 }
 
 // Delete
@@ -37,12 +41,15 @@ async function deleteCard(id) {
   return await knex('cards').where({ id }).del();
 }
 
+
+
 module.exports = {
   createCard,
   getAllCards,
   getCardById,
   updateCard,
   deleteCard,
+  saveScore,
   getRandomCard
 };
 
