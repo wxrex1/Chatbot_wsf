@@ -62,7 +62,7 @@ const { getRandomCard } = require('./cardModel');
 		
 		let current_card = predicted_response[0];
 		let randomCard = await getRandomCard(cards);
-		randomCard = randomCard.name.toString();  // En string pour la comparaison: lexicographical
+		randomCard = randomCard.name;  // besoin d'un string pour la comparaison: lexicographical => améliration le faire avec des int plutot
 		
 		if (randomCard === current_card) {
 		  console.log("Bravo \\(^◇^)/ , vous avez gagné !");
