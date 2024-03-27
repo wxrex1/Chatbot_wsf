@@ -85,7 +85,7 @@ const { getRandomCard } = require('./cardModel');
 			current_card = parseInt(predicted_response[0], 10);  
 
 			if (randomCard === current_card) {
-				console.log("Bravo \\(^◇^)// , vous avez gagné ! la carte gagnante était : ", randomCard);
+				console.log("Bravo \\(^◇^)/ , vous avez gagné ! la carte gagnante était : ", randomCard);
 				wins++;
 			} else {
 				console.log("Dommage ¯\\_(ツ)_/¯ , la carte gagnante était : ", randomCard);
