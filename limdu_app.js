@@ -69,6 +69,10 @@ const { getRandomCard, saveScore} = require('./cardModel');
 		
 		
 		let current_card = Number(predicted_response[0]);
+		if (isNaN(current_card) || current_card < 1 || current_card > 10) {
+			console.log("Ohlala! Vous avez entré un nombre invalide. Allez, c'est reparti!");
+			continue;
+		}
 		let randomCard = await getRandomCard(cards);
 		randomCard = Number(randomCard.name);  // convert to number for proper comparison
 
@@ -84,6 +88,11 @@ const { getRandomCard, saveScore} = require('./cardModel');
 			const second_guess = prompt("Choissiez une carte entre 1 et 10 et ne vous trompez pas cette fois: ");
 			predicted_response = intentClassifier.classify(second_guess);
 			current_card = Number(predicted_response[0]);  // convert to number for proper comparison
+
+			if (isNaN(current_card) || current_card < 1 || current_card > 10) {
+				console.log("Invalid input. Please choose a number between 1 and 10.");
+				continue;
+			}
 
 			if (randomCard === current_card) {
 				console.log("Bravo \\(^◇^)// , vous avez gagné ! la carte gagnante était : ", randomCard);
