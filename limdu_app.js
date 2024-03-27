@@ -97,4 +97,6 @@ const { getRandomCard } = require('./cardModel');
         
         playAgain = prompt("Voulez-vous rejouez? (oui/non)");
 	}
+	console.log("Merci d'avoir joué! A bientôt!");
+	process.exit();
 })();
