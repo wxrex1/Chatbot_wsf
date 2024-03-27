@@ -8,9 +8,9 @@ const { getRandomCard, saveScore} = require('./cardModel');
 (async function() {
 	//pour rejouer jusqu'a ce que le joeur dise non
 	let playAgain = "oui";
-    let wins = 0;
-    let losses = 0;
-    while (playAgain.toLowerCase() === "oui") {
+	let wins = 0;
+	let losses = 0;
+	do {
 
 		const cards = await db.getAllCards()
 
@@ -66,8 +66,8 @@ const { getRandomCard, saveScore} = require('./cardModel');
 		console.log('Bonjour ! Bienvenue dans ce super jeu de carte trop génial!')
 		const card_want = prompt("Choissiez une carte entre 1 et 10: ");
 		predicted_response = intentClassifier.classify(card_want);
-		
-		
+
+
 		let current_card = Number(predicted_response[0]);
 		if (isNaN(current_card) || current_card < 1 || current_card > 10) {
 			console.log("Ohlala! Vous avez entré un nombre invalide. Allez, c'est reparti!");
@@ -107,7 +107,12 @@ const { getRandomCard, saveScore} = require('./cardModel');
 		await saveScore(wins, losses);
 
 		playAgain = prompt("Voulez-vous rejouez? (oui/non)");
+
+		if (playAgain.toLowerCase() == "non") {
+			const username = prompt("Veuillez entrer votre nom d'utilisateur: ");
+			await saveScore(username, wins, losses);
+			console.log("Merci d'avoir joué! A bientôt!");
+			process.exit();
 		}
-		console.log("Merci d'avoir joué! A bientôt!");
-		process.exit();
-		})();
+	} while (playAgain.toLowerCase() == "oui");
+})();
