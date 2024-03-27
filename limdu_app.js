@@ -2,7 +2,7 @@ var limdu = require('limdu');
 const prompt = require("prompt-sync")({ sigint: true });
 const db = require('./cardModel');
 const knex = require('knex')(require('./knexfile')['development']);
-const { getRandomCard } = require('./cardModel');
+const { getRandomCard, saveScore} = require('./cardModel');
 
 
 (async function() {
@@ -68,32 +68,34 @@ const { getRandomCard } = require('./cardModel');
 		predicted_response = intentClassifier.classify(card_want);
 		
 		
-		let current_card = parseInt(predicted_response[0], 10);
+		let current_card = predicted_response[0];
 		let randomCard = await getRandomCard(cards);
-		randomCard = parseInt(randomCard.name, 10);  
-
-		if (randomCard === current_card) {
-			console.log("Bravo \\(^◇^)/ , vous avez gagné !");
-		} else {
-			if (randomCard > current_card) {
-				console.log("C'est plus grand");
-			} else {
-				console.log("C'est plus petit");
-			}
-			const second_guess = prompt("Choissiez une carte entre 1 et 10 et ne vous trompez pas cette fois: ");
-			predicted_response = intentClassifier.classify(second_guess);
-			current_card = parseInt(predicted_response[0], 10);  
-
-			if (randomCard === current_card) {
-				console.log("Bravo \\(^◇^)/ , vous avez gagné ! la carte gagnante était : ", randomCard);
-				wins++;
-			} else {
-				console.log("Dommage ¯\\_(ツ)_/¯ , la carte gagnante était : ", randomCard);
-				losses++;
-			}
-		}
+		randomCard = randomCard.name;  // besoin d'un string pour la comparaison: lexicographical => améliration le faire avec des int plutot
 		
-		console.log(`Votre score actuel est de ${wins} victoires et ${losses} défaites.`);
+		if (randomCard === current_card) {
+		  console.log("Bravo \\(^◇^)/ , vous avez gagné !");
+		  wins++;
+		} else {
+		  if (randomCard > current_card) {
+			console.log("C'est plus grand");
+		  } else {
+			console.log("C'est plus petit");
+		  }
+		  const second_guess = prompt("Choissiez une carte entre 1 et 10 et ne vous trompez pas cette fois: ");
+		  predicted_response = intentClassifier.classify(second_guess);
+		  current_card = predicted_response[0];  
+		
+		  if (randomCard === current_card) {
+			console.log("Bravo \\(^◇^)// , vous avez gagné ! la carte gagnante était : ", randomCard);
+			wins++;
+		  } else {
+			console.log("Dommage ¯\\_(ツ)_/¯ , la carte gagnante était : ", randomCard);
+			losses++;
+		  }
+		}
+
+			console.log(`Votre score actuel est de ${wins} victoires et ${losses} défaites.`);
+			await saveScore(wins, losses);
         
         playAgain = prompt("Voulez-vous rejouez? (oui/non)");
 	}
