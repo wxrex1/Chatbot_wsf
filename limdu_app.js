@@ -68,29 +68,29 @@ const { getRandomCard } = require('./cardModel');
 		predicted_response = intentClassifier.classify(card_want);
 		
 		
-		let current_card = predicted_response[0];
+		let current_card = parseInt(predicted_response[0], 10);
 		let randomCard = await getRandomCard(cards);
-		randomCard = randomCard.name;  // besoin d'un string pour la comparaison: lexicographical => améliration le faire avec des int plutot
-		
+		randomCard = parseInt(randomCard.name, 10);  
+
 		if (randomCard === current_card) {
-		  console.log("Bravo \\(^◇^)/ , vous avez gagné !");
+			console.log("Bravo \\(^◇^)/ , vous avez gagné !");
 		} else {
-		  if (randomCard > current_card) {
-			console.log("C'est plus grand");
-		  } else {
-			console.log("C'est plus petit");
-		  }
-		  const second_guess = prompt("Choissiez une carte entre 1 et 10 et ne vous trompez pas cette fois: ");
-		  predicted_response = intentClassifier.classify(second_guess);
-		  current_card = predicted_response[0];  
-		
-		  if (randomCard === current_card) {
-			console.log("Bravo \\(^◇^)// , vous avez gagné ! la carte gagnante était : ", randomCard);
-			wins++;
-		  } else {
-			console.log("Dommage ¯\\_(ツ)_/¯ , la carte gagnante était : ", randomCard);
-			losses++;
-		  }
+			if (randomCard > current_card) {
+				console.log("C'est plus grand");
+			} else {
+				console.log("C'est plus petit");
+			}
+			const second_guess = prompt("Choissiez une carte entre 1 et 10 et ne vous trompez pas cette fois: ");
+			predicted_response = intentClassifier.classify(second_guess);
+			current_card = parseInt(predicted_response[0], 10);  
+
+			if (randomCard === current_card) {
+				console.log("Bravo \\(^◇^)// , vous avez gagné ! la carte gagnante était : ", randomCard);
+				wins++;
+			} else {
+				console.log("Dommage ¯\\_(ツ)_/¯ , la carte gagnante était : ", randomCard);
+				losses++;
+			}
 		}
 		
 		console.log(`Votre score actuel est de ${wins} victoires et ${losses} défaites.`);
