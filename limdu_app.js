@@ -59,15 +59,30 @@ const { getRandomCard } = require('./cardModel');
 		const card_want = prompt("Choissiez une carte entre 1 et 10: ");
 		predicted_response = intentClassifier.classify(card_want);
 		
-		let current_card = predicted_response[0]
-		const randomCard = await getRandomCard(cards);
-
+		
+		let current_card = predicted_response[0];
+		let randomCard = await getRandomCard(cards);
+		randomCard = randomCard.name.toString();  // En string pour la comparaison: lexicographical
+		
 		if (randomCard === current_card) {
-			console.log("Bravo \(^◇^)/ , vous avez gagné !");
+		  console.log("Bravo \\(^◇^)/ , vous avez gagné !");
 		} else {
-			console.log("Dommage ¯\_(ツ)_/¯ , la carte gagnante était : ", randomCard.name);
+		  if (randomCard > current_card) {
+			console.log("C'est plus grand");
+		  } else {
+			console.log("C'est plus petit");
+		  }
+		  const second_guess = prompt("Choissiez une carte entre 1 et 10 et ne vous trompez pas cette fois: ");
+		  predicted_response = intentClassifier.classify(second_guess);
+		  current_card = predicted_response[0];  
+		
+		  if (randomCard === current_card) {
+			console.log("Bravo \\(^◇^)/ , vous avez gagné !");
+		  } else {
+			console.log("Dommage ¯\\_(ツ)_/¯ , la carte gagnante était : ", randomCard);
+		  }
 		}
-
+		
 		playAgain = prompt("Voulez-vous rejouez? (oui/non)");
 	}
-})()
+})();
