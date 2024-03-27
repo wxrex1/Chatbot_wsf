@@ -20,6 +20,15 @@ async function getCardById(id) {
   return await knex('cards').where({ id }).first();
 }
 
+async function getRandomCard() {
+  const randomCard = await knex.select().from('cards').where({ quantity: 1 });
+  if (randomCard.length === 0) {
+    throw new Error("il n'ya plus de carte disponible");
+  }
+  const randomIndex = Math.floor(Math.random() * randomCard.length);
+  return randomCard[randomIndex];
+  }
+  
 
 // Update
 async function updateCard(id, quantity) {
@@ -37,6 +46,7 @@ module.exports = {
   getCardById,
   updateCard,
   deleteCard,
+  getRandomCard
 };
 
 
