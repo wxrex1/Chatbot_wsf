@@ -8,20 +8,28 @@ const { getRandomCard } = require('./cardModel');
 (async function() {
 	//pour rejouer jusqu'a ce que le joeur dise non
 	let playAgain = "oui";
-	while (playAgain.toLowerCase() === "oui") {
+    let wins = 0;
+    let losses = 0;
+    while (playAgain.toLowerCase() === "oui") {
+
 		const cards = await db.getAllCards()
+
 		var TextClassifier = limdu.classifiers.multilabel.BinaryRelevance.bind(0, {
 			binaryClassifierType: limdu.classifiers.Winnow.bind(0, {retrain_count: 10})
 		});
+
 		var WordExtractor = function(input, features) {
 			input.split(" ").forEach(function(word) {
 				features[word]=1;
 			});
 		};
+
 		var intentClassifier = new limdu.classifiers.EnhancedClassifier({
 			classifierType: TextClassifier,
 			featureExtractor: WordExtractor
 		});
+
+		// Train and test:
 		intentClassifier.trainBatch([
 			{input: "1", output: "1"},
 			{input: "Je choisi le 1", output: "1"},
@@ -77,12 +85,16 @@ const { getRandomCard } = require('./cardModel');
 		  current_card = predicted_response[0];  
 		
 		  if (randomCard === current_card) {
-			console.log("Bravo \\(^◇^)/ , vous avez gagné !");
+			console.log("Bravo \\(^◇^)// , vous avez gagné ! la carte gagnante était : ", randomCard);
+			wins++;
 		  } else {
 			console.log("Dommage ¯\\_(ツ)_/¯ , la carte gagnante était : ", randomCard);
+			losses++;
 		  }
 		}
 		
-		playAgain = prompt("Voulez-vous rejouez? (oui/non)");
+		console.log(`Votre score actuel est de ${wins} victoires et ${losses} défaites.`);
+        
+        playAgain = prompt("Voulez-vous rejouez? (oui/non)");
 	}
 })();
